@@ -38,7 +38,7 @@ call = function(name, args, cb) {
 
 $(document).ready(function() {
     var tpl_users = Handlebars.compile($("#tpl_users").html());
-    var users = collection('get_all_users', function(key, value) {
+    var users = collection('subscribe_all_users', function(key, value) {
         $("#users").html(tpl_users({users: _.toArray(users)}));
     });
     var tpl_console = Handlebars.compile($("#tpl_console").html());
