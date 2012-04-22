@@ -40,7 +40,7 @@ class WSRPC:
 
 
 if __name__ == '__main__':
-    ws_port, zerorpc_connect = sys.argv[1], sys.argv[2]
+    zerorpc_connect, ws_port = sys.argv[1], sys.argv[2]
     service = zerorpc.Client()
     service.connect(zerorpc_connect)
     WSRPC(service).run('', int(ws_port))
