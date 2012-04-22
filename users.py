@@ -42,61 +42,73 @@ class DB:
 
 
 users = DB()
-users.set("shykes", {
-        "first_name": "Solomon",
-        "last_name": "Hykes",
-        "email": "solomon@dotcloud.com"
-})
-users.set("gordon", {
-        "first_name": "Gordon",
-        "last_name": "the turtle",
-        "email": "gordon@dotcloud.com"
-})
+users.set("shykes", {"email": "solomon@dotcloud.com"})
+users.set("andrea", {"email": "andrea@dotcloud.com"})
+users.set("sam", {"email": "sam@dotcloud.com"})
+users.set("eric", {"email": "eric@dotcloud.com"})
+users.set("jr", {"email": "jr@dotcloud.com"})
+users.set("joffrey", {"email": "joffrey@dotcloud.com"})
+users.set("yusuf", {"email": "yusuf@dotcloud.com"})
+users.set("jed", {"email": "jed@dotcloud.com"})
+users.set("jerome", {"email": "jerome@dotcloud.com"})
+users.set("ken", {"email": "ken@dotcloud.com"})
+users.set("louis", {"email": "louis@dotcloud.com"})
+users.set("chris", {"email": "chris@dotcloud.com"})
+users.set("elena", {"email": "elena@dotcloud.com"})
+users.set("yannis", {"email": "yannis@dotcloud.com"})
+users.set("charles", {"email": "charles@dotcloud.com"})
 
 
 class UserService:
 
     @zerorpc.stream
     def subscribe_all_users(self):
+        """ Subscribe to a collection of all users, with real-time synchronization."""
         for (id, doc) in users:
             yield ["set", id, doc]
         for change in users.changes:
             yield change
 
     def get_all_users(self):
+        """ Get a list of all users. """
         return dict((id, doc) for (id, doc) in users)
 
     def set_user_email(self, id, email):
+        """ Change the email of a user. """
         data = users.get(id)
         data['email'] = email
         users.set(id, data)
 
     def set_user_pic(self, id, pic):
+        """ Change the profile picture of a user. """
         data = users.get(id)
         data['pic'] = pic
         users.set(id, data)
 
     def add_user(self, id, email):
+        """ Create a new user and set its email.  """
         users.set(id, {'email': email})
 
     def rename_user(self, id, first_name, last_name):
+        """ Change the first and last name of a user. """
         data = users.get(id)
         data['first_name'] = first_name
         data['last_name'] = last_name
         users.set(id, data)
 
     def capitalize_all_names(self):
+        """ Capitalize the first and last name of all users. """
         for (id, doc) in users:
-            doc['first_name'] = doc['first_name'].capitalize()
-            doc['last_name'] = doc['last_name'].capitalize()
+            doc['first_name'] = doc.get('first_name', '').capitalize()
+            doc['last_name'] = doc.get('last_name', '').capitalize()
             users.set(id, doc)
 
     def uppercase_all_names(self):
+        """ Change to uppercase the first and last name of all users. """
         for (id, doc) in users:
-            doc['first_name'] = doc['first_name'].upper()
-            doc['last_name'] = doc['last_name'].upper()
+            doc['first_name'] = doc.get('first_name', '').upper()
+            doc['last_name'] = doc.get('last_name', '').upper()
             users.set(id, doc)
-
 
 
     def test(self):
