@@ -1,13 +1,17 @@
 <html>
     <head>
         <script id="tpl_console" type="text/x-handlebars-template">
-            <div class="well form-inline">
-                <select>
-                    {{#foreach methods}}
-                        <option>{{this}}</option>
-                    {{/foreach}}
-                </select>
-                <input type="text">
+            <div class="well">
+                <form class="form-inline" action="">
+                    <select class="rpc_method_input">
+                        {{#each methods}}
+                            <option>{{this}}</option>
+                        {{/each}}
+                    </select>
+                    <input class="rpc_arg_input" type="text">
+                    <input class="btn" type="submit" value="Run"></input>
+                </form>
+                <div class="alert alert-info rpc_result">{{result}}</div>
             </div>
         </script>
 
@@ -40,6 +44,7 @@
         <div class="container">
             <h1>Users</h1>
             <div id="users"></div>
+            <h2>Zerorpc console</h2>
             <div id="console"></div>
         </div>
     </body>
