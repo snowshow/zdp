@@ -1,6 +1,7 @@
 
 import uuid
 import gevent
+import random
 import zerorpc
 
 
@@ -42,9 +43,9 @@ class DB:
 
 
 users = DB()
-users.set("shykes", {"email": "solomon@dotcloud.com"})
-users.set("andrea", {"email": "andrea@dotcloud.com"})
-users.set("sam", {"email": "sam@dotcloud.com"})
+users.set("shykes", {"email": "solomon@dotcloud.com", "first_name": "Solomon", "last_name": "Hykes"})
+users.set("andrea", {"email": "andrea@dotcloud.com", "first_name": "Andrea", "last_name": "Luzzardi"})
+users.set("sam", {"email": "sam@dotcloud.com", "first_name": "Sam", "last_name": "Alba"})
 users.set("eric", {"email": "eric@dotcloud.com"})
 users.set("jr", {"email": "jr@dotcloud.com"})
 users.set("joffrey", {"email": "joffrey@dotcloud.com"})
@@ -84,6 +85,23 @@ class UserService:
         data = users.get(id)
         data['pic'] = pic
         users.set(id, data)
+
+    def random_user_pic(self, id):
+        """ Randomly choose the profile picture of a user. """
+        self.set_user_pic(id, random.choice([
+            "http://thingscoolerthantoothpaste.files.wordpress.com/2010/01/gecko_brick_cell.jpg",
+            "http://www.dreamstime.com/cute-turtle-thumb9243035.jpg",
+            "http://images.smh.com.au/2009/06/18/584443/steveballmer1-420x0.jpg",
+            "http://4.bp.blogspot.com/-XtyVKAZSQfI/TwKbGIo9qpI/AAAAAAAAAZs/lPwJ6LktDXs/s1600/imgRichard+Stallman4.jpg",
+            "http://3.bp.blogspot.com/-mYU2nJp2lu4/Tgk9Y6o2zcI/AAAAAAAABQI/_yIeq_mkjzQ/s1600/Mr-T.jpg",
+            "http://www.blogcdn.com/blog.moviefone.com/media/2011/02/kill-bill.jpg",
+            "http://media1.break.com/breakstudios/2011/12/20/gordon%20liu%20kill%20bill.jpg",
+            "http://paulbeforeswine.files.wordpress.com/2011/04/koolaid.jpg"
+        ]))
+
+    def random_pic(self):
+        """ Randomly choose the profile picture of a randomly chosen user. """
+        self.random_user_pic(random.choice(list(self.get_all_users())))
 
     def add_user(self, id, email):
         """ Create a new user and set its email.  """
